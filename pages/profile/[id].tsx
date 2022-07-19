@@ -272,6 +272,7 @@ const Profile = ({
           top: 0;
           left: 50%;
           transform: translate(-50%, -75%);
+          background-color: #fff;
           border: 0.5rem solid #fff;
           border-radius: 0.5rem;
         }
