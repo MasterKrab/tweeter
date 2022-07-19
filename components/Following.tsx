@@ -134,8 +134,9 @@ const Following = ({ name, users, titleId, onClose }: FollowersProps) => {
           display: grid;
           grid-template-columns: 1fr;
           gap: 1.473rem;
-          padding-right: 0.25rem;
+          min-height: 15rem;
           max-height: min(35rem, 70vh);
+          padding-right: 0.25rem;
           overflow-y: auto;
         }
 
