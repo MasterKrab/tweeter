@@ -1,34 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tweeter
 
-## Getting Started
+Twitter clone with Github and Gitlab authentication. Solution for a [challenge](https://devchallenges.io/challenges/rleoQc34THclWx1cFFKH) from [devchallenges.io](https://devchallenges.io/). The application is made in NextJS for the possibility of doing the frontend and backend in the same project, TypeScript for type safety, Redux for better and more scalable state management, Framer Motion to add animations to the frontend, NextAuth to implement authentication in an easy and robust way, PostgreSQL as database for its great scalability and Prisma ORM to manage the database in a more productive way.
 
-First, run the development server:
+## Prerequisites
+
+Install the dependencies.
+
+```bash
+npm install
+```
+
+Create an `env.local` file and add the environment variables, see `.env.example`.
+
+## Scripts
+
+This creates a local server and rebuild it when you make changes.
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This creates a production-ready version of the app and can be deployed to the web.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+This creates a template for the enviroment variables in a `.env.example` file
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```bash
+npm run gen-env-template
+```
