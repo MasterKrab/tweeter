@@ -9,6 +9,7 @@ const options = {
 }
 
 const getTweets = async ({
+  userId,
   take,
   skip = 0,
   media,
@@ -16,6 +17,7 @@ const getTweets = async ({
   orderByReTweetsCount,
   orderByLikesCount,
 }: {
+  userId?: string
   take: number
   skip?: number
   media?: boolean
@@ -48,13 +50,21 @@ const getTweets = async ({
   const tweets = await prisma.tweet.findMany({
     take: hasSearch ? undefined : take,
     skip: hasSearch ? undefined : skip,
+    include: {
+      ...tweetsQuery.include,
+      _count: {
+        select: {
+          ...tweetsQuery.include._count.select,
+          likes: orderByLikesCount,
+        },
+      },
+    },
     where,
     orderBy,
-    ...tweetsQuery,
     distinct: ['id'],
   })
 
-  if (!hasSearch) return await normalizeTweets(tweets)
+  if (!hasSearch) return await normalizeTweets(tweets, userId)
 
   const fuse = new Fuse(tweets, options)
 
@@ -63,7 +73,7 @@ const getTweets = async ({
     .map(({ item }) => item)
     .slice(skip, skip + take)
 
-  return await normalizeTweets(filteredTweets)
+  return await normalizeTweets(filteredTweets, userId)
 }
 
 export default getTweets

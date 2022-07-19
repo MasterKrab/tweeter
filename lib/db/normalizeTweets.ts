@@ -34,6 +34,7 @@ export type TweetToNormalize = Tweet & {
     reTweets: number
     bookmarks: number
     comments: number
+    likes?: number
   }
 }
 
@@ -109,7 +110,11 @@ export const normalizeTweets = (
           bookmarked,
           comments: normalizedComments,
           createdAt: createdAt.toISOString(),
-          count: _count,
+          count: {
+            reTweets: _count.reTweets,
+            bookmarks: _count.bookmarks,
+            comments: _count.comments,
+          },
         }
       }
     )

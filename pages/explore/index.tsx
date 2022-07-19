@@ -1,5 +1,6 @@
 import type { GetServerSideProps } from 'next'
 import type UserExplore from 'types/user-explore'
+import { getSession } from 'next-auth/react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useForm, useWatch } from 'react-hook-form'
@@ -26,7 +27,12 @@ import mainFilterStyles from 'styles/mainFilterStyles'
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async ({ req }) => {
+    const session = await getSession({ req })
+
+    const userId = session?.user?.id
+
     const tweets = await getExploreTweets({
+      userId,
       take: 10,
       orderByReTweetsCount: true,
       orderByLikesCount: true,
