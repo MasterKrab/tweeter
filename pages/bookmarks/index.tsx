@@ -1,6 +1,6 @@
 import type { GetServerSideProps } from 'next'
 import { useSelector } from 'react-redux'
-import { getSession, useSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import { wrapper, useAppDispatch } from 'app/store'
 import getBookmarksTweets from 'lib/db/getBookmarksTweets'
 import {
@@ -43,7 +43,6 @@ export const getServerSideProps: GetServerSideProps =
   })
 
 const Bookmarks = () => {
-  const { data: session } = useSession()
   const { data: tweets, loading } = useSelector(
     createSelectTweets(TWEETS_IDS.BOOKMARKS)
   )
@@ -81,15 +80,13 @@ const Bookmarks = () => {
         values={bookmarksTweetsFilter}
         texts={BOOKMARKS_TWEETS_TEXTS}
       />
-      {session && (
-        <Tweets
-          tweets={tweets}
-          onLoadMoreTweets={handleLoadMoreTweets}
-          isLoading={loading}
-          ariaLabel="Bookmarks"
-          payloadId={TWEETS_IDS.BOOKMARKS}
-        />
-      )}
+      <Tweets
+        tweets={tweets}
+        onLoadMoreTweets={handleLoadMoreTweets}
+        isLoading={loading}
+        ariaLabel="Bookmarks"
+        payloadId={TWEETS_IDS.BOOKMARKS}
+      />
       <style jsx>{mainFilterStyles}</style>
     </>
   )
