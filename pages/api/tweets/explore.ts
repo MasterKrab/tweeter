@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type Tweet from 'types/tweet'
+import { getSession } from 'next-auth/react'
 import isSomeArray from 'utils/isSomeArray'
 import convertToNumbers from 'utils/convertToNumbers'
 import getExploreTweets from 'lib/db/getExploreTweets'
@@ -9,6 +10,10 @@ export default async (
   res: NextApiResponse<Tweet[] | string>
 ) => {
   if (req.method !== 'GET') return res.status(405).end('Method not allowed')
+
+  const session = await getSession({ req })
+
+  const userId = session?.user?.id
 
   const {
     take = '10',
@@ -38,6 +43,7 @@ export default async (
   const [normalizedTake, normalizedSkip] = result!
 
   const tweets = await getExploreTweets({
+    userId,
     take: normalizedTake,
     skip: normalizedSkip,
     media: media === 'true',
