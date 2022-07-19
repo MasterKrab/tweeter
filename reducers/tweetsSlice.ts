@@ -152,23 +152,9 @@ const {
   },
   extraReducers: (builder) => {
     builder.addCase(HYDRATE, (state, { payload: { tweets } }: AnyAction) => {
-      const normalizedTweets = tweets as TweetsSliceState
-
       const difference = diff(state, tweets)
 
-      if (!difference) return state
-
-      const newState = { ...state }
-
-      for (const key in normalizedTweets) {
-        const currentState = tweets[key] as TweetsState
-
-        if (!currentState.data.length) continue
-
-        newState[key as tweetId] = currentState
-      }
-
-      return newState
+      return difference ? tweets : state
     })
 
     const fetchTweetsCallbackFullfilled = (
