@@ -32,37 +32,39 @@ const Tweets = ({
 
   return (
     <>
-      <article
-        ref={tweetsRef}
-        className="tweets"
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
-      >
-        {tweets.length ? (
-          <>
-            {tweets.map((tweet) => (
-              <TweetItem
-                key={`${id}-${tweet.id}`}
-                payloadId={payloadId}
-                {...tweet}
-              />
-            ))}
-            <div ref={dump} />
-          </>
-        ) : (
-          <MessageEmpty />
+      <div>
+        <article
+          ref={tweetsRef}
+          className="tweets"
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
+        >
+          {tweets.length ? (
+            <>
+              {tweets.map((tweet) => (
+                <TweetItem
+                  key={`${id}-${tweet.id}`}
+                  payloadId={payloadId}
+                  {...tweet}
+                />
+              ))}
+              <div ref={dump} />
+            </>
+          ) : (
+            !isLoading && <MessageEmpty />
+          )}
+        </article>
+        {isLoading && (
+          <Spinner
+            size="5rem"
+            borderWidth="0.75rem"
+            primaryColor="var(--gray-2)"
+            secondaryColor="var(--blue)"
+            marginLeft="auto"
+            marginRight="auto"
+          />
         )}
-      </article>
-      {isLoading && (
-        <Spinner
-          size="5rem"
-          borderWidth="0.75rem"
-          primaryColor="var(--gray-2)"
-          secondaryColor="var(--blue)"
-          marginLeft="auto"
-          marginRight="auto"
-        />
-      )}
+      </div>
       <style jsx>{`
         .tweets {
           display: grid;
