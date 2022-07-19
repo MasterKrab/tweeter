@@ -240,7 +240,6 @@ const TweetItem = ({ payloadId, ...tweet }: TweetItemProps) => {
           display: grid;
           grid-template-columns: auto 1fr;
           column-gap: 1.094rem;
-          cursor: pointer;
         }
 
         .tweet__header > :global(.avatar) {
