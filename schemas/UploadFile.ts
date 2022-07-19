@@ -11,7 +11,6 @@ class UploadFile {
   @jf.string()
   originalFilename!: string
 
-  //  add custom errors messages
   @jf.string().valid(IMAGE_FORMATS).error(new Error('Invalid image format'))
   mimetype!: string
 
