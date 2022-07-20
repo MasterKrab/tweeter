@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useId } from 'react'
+import { useSession } from 'next-auth/react'
 import Avatar from 'components/Avatar'
 import FollowButton from 'components/FollowButton'
 import MessageEmpty from 'components/MessageEmpty'
@@ -19,6 +20,8 @@ interface FollowersProps {
 }
 
 const Following = ({ name, users, titleId, onClose }: FollowersProps) => {
+  const { data: session } = useSession()
+
   const id = useId()
 
   return (
@@ -78,7 +81,12 @@ const Following = ({ name, users, titleId, onClose }: FollowersProps) => {
                         {kFormatter(followers)} followers
                       </p>
                     </header>
-                    <FollowButton defaultIsFollowed={isFollowed} userId={id} />
+                    {session && (
+                      <FollowButton
+                        defaultIsFollowed={isFollowed}
+                        userId={id}
+                      />
+                    )}
                     {bio && <p className="followed__bio">{bio}</p>}
                   </article>
                 </li>
