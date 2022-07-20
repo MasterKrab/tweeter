@@ -19,6 +19,7 @@ import EXPLORE_FILTERS, {
   exploreFilters,
   EXPLORE_FILTERS_TEXTS,
 } from 'lib/filters/exploreFilters'
+import Metadata from 'components/Metadata'
 import Filter from 'components/Filter'
 import SearchBox, { SearchForm } from 'components/SearchBox'
 import Tweets from 'components/Tweets'
@@ -114,6 +115,7 @@ const Explore = () => {
 
   return (
     <>
+      <Metadata title="Explore" />
       <Filter
         value={filter}
         onChange={handleChangeFilter}

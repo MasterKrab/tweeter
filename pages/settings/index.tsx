@@ -4,6 +4,7 @@ import type EditUserSettings from 'types/edit-user-settings'
 import { useState, useId, useEffect } from 'react'
 import { getSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
+import Metadata from 'components/Metadata'
 import ImageInput from 'components/ImageInput'
 import ErrorMessage from 'components/ErrorMessage'
 import ErrorToast from 'components/ErrorToast'
@@ -136,6 +137,7 @@ const Settings = ({ user }: SettingsProps) => {
 
   return (
     <>
+      <Metadata title="Settings" />
       <h1 className="title">Settings</h1>
       <form className="profile" onSubmit={handleSubmit(onSubmit)}>
         <h2 className="profile__title">Profile</h2>

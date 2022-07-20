@@ -11,6 +11,7 @@ import {
   setTweets,
 } from 'reducers/tweetsSlice'
 import getTweets from 'lib/db/getTweets'
+import Metadata from 'components/Metadata'
 import AddTweet from 'components/AddTweet'
 import Tweets from 'components/Tweets'
 import Trends from 'components/Trends'
@@ -67,6 +68,7 @@ const Home = ({ hashtags, usersToFollow }: HomeProps) => {
 
   return (
     <>
+      <Metadata title="Home" />
       <div className="body">
         {session && <AddTweet />}
         <Tweets
