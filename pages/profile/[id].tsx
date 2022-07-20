@@ -21,6 +21,7 @@ import PROFILE_TWEETS_FILTERS, {
   PROFILE_TWEETS_TEXTS,
 } from 'lib/filters/profileTweetsFilters'
 import kFormatter from 'utils/kFormatter'
+import Metadata from 'components/Metadata'
 import Avatar from 'components/Avatar'
 import Modal from 'components/Modal'
 import Following from 'components/Following'
@@ -143,6 +144,7 @@ const Profile = ({
 
   return (
     <>
+      <Metadata title={name} />
       <motion.article
         className="profile"
         initial={{ scale: 0.75, opacity: 0 }}

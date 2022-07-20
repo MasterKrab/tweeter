@@ -15,6 +15,7 @@ import BOOKMARKS_TWEETS_FILTERS, {
   bookmarksTweetsFilter,
   BOOKMARKS_TWEETS_TEXTS,
 } from 'lib/filters/bookmarksTweetsFilter'
+import Metadata from 'components/Metadata'
 import Filter from 'components/Filter'
 import Tweets from 'components/Tweets'
 import mainFilterStyles from 'styles/mainFilterStyles'
@@ -74,6 +75,7 @@ const Bookmarks = () => {
 
   return (
     <>
+      <Metadata title="Bookmarks" />
       <Filter
         value={filter}
         onChange={handleChangeFilter}
