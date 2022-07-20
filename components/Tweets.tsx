@@ -2,6 +2,7 @@ import type Tweet from 'types/tweet'
 import type { tweetId } from 'reducers/tweetsSlice'
 import { useRef, useId } from 'react'
 import useInfiniteScroll from 'hooks/useInfiniteScroll'
+import useIsMounted from 'hooks/useIsMounted'
 import TweetItem from 'components/TweetItem'
 import MessageEmpty from 'components/MessageEmpty'
 import Spinner from 'components/Spinner'
@@ -27,8 +28,10 @@ const Tweets = ({
   const dump = useInfiniteScroll(() => {
     onLoadMoreTweets && tweets.length && onLoadMoreTweets()
   }, !isLoading)
-
+  const isMounted = useIsMounted()
   const id = useId()
+
+  if (!isMounted) return
 
   return (
     <>
