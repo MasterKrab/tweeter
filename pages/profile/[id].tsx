@@ -351,7 +351,7 @@ const Profile = ({
         }
 
         @media screen and (min-width: 64rem) {
-          .profile > :global(.follow-button) {
+          :global(.profile > .follow-button) {
             grid-row: 1 / 2;
             grid-column: 3 / 4;
           }
