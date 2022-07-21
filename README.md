@@ -2,6 +2,8 @@
 
 Twitter clone with Github and Gitlab authentication. Solution for a [challenge](https://devchallenges.io/challenges/rleoQc34THclWx1cFFKH) from [devchallenges.io](https://devchallenges.io/). The application is made in NextJS for the possibility of doing the frontend and backend in the same project, TypeScript for type safety, Redux for better and more scalable state management, Framer Motion to add animations to the frontend, NextAuth to implement authentication in an easy and robust way, PostgreSQL as database for its great scalability and Prisma ORM to manage the database in a more productive way.
 
+![Screenshot](./screenshot.png)
+
 ## Prerequisites
 
 Install the dependencies.
