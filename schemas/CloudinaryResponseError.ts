@@ -7,8 +7,8 @@ class Headers {
   @jf.string()
   'User-Agent'!: string
 
-  @jf.string()
-  'Content-Length'!: string
+  @jf.number()
+  'Content-Length'!: number
 }
 
 class Error {
