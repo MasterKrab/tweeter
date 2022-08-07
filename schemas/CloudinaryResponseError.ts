@@ -38,7 +38,7 @@ class RequestOptions {
   @jf.string()
   hostname!: string
 
-  @jf.string()
+  @jf.string().allow(null)
   hash!: string | null
 
   @jf.string().allow(null)
@@ -67,7 +67,7 @@ class CloudinaryResponseError {
   @jf.object()
   request_options!: RequestOptions
 
-  @jf.string()
+  @jf.string().allow('')
   query_params!: string
 
   @jf.object()
