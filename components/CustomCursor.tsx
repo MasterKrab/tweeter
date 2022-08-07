@@ -2,17 +2,25 @@ import { useState, useRef } from 'react'
 import useWindowEvent from 'hooks/useWindowEvent'
 import useMatchMedia from 'hooks/useMatchMedia'
 import useIsHoldingClick from 'hooks/useIsHoldingClick'
+import useIsMounted from 'hooks/useIsMounted'
+import useIsGecko from 'hooks/useIsGecko'
 
 const CustomCursor = () => {
   const [[x, y], setPosition] = useState([-500, -500])
   const [isPointer, setPointer] = useState(false)
   const isTouch = useMatchMedia('(pointer: coarse)')
   const isHoldingClick = useIsHoldingClick()
+  const isMounted = useIsMounted()
+  const isGecko = useIsGecko()
 
   const containerRef = useRef<HTMLDivElement>(null)
 
   const handleMouseMove = ({ target, pageX, pageY }: MouseEvent) => {
-    setPosition([pageX, pageY])
+    if (!containerRef.current) return
+
+    const { offsetWidth, offsetHeight } = containerRef.current
+
+    setPosition([pageX - offsetWidth / 2, pageY - offsetHeight / 2])
 
     if (!target) return
 
@@ -29,7 +37,17 @@ const CustomCursor = () => {
 
   return (
     <>
-      <div className="custom-cursor" ref={containerRef} />
+      {isMounted && (
+        <div
+          className="custom-cursor"
+          ref={containerRef}
+          style={
+            isGecko
+              ? { top: `${y}px`, left: `${x}px` }
+              : { transform: `translate(${x}px, ${y}px)` }
+          }
+        />
+      )}
       <style jsx>{`
         .custom-cursor {
           position: absolute;
@@ -64,7 +82,6 @@ const CustomCursor = () => {
           display: ${isTouch ? 'none' : 'block'};
           width: calc(1.5rem * ${scale});
           height: calc(1.5rem * ${scale});
-          transform: translate(calc(${x}px - 50%), calc(${y}px - 50%));
           opacity: ${isPointer ? 0.7 : 1};
         }
       `}</style>
