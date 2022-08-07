@@ -65,7 +65,7 @@ class RequestOptions {
 
 class CloudinaryResponseError {
   @jf.object()
-  request!: RequestOptions
+  request_options!: RequestOptions
 
   @jf.string()
   query_params!: string
