@@ -1,36 +1,28 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, MouseEvent } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import HeaderRightLayout from 'components/HeaderRightLayout'
 import ToolTip from 'components/Tooltip'
 import resetButton from 'styles/resetButton'
 import toolTipActionStyles from 'styles/toolTipActionStyles'
 
-const UserToolTip = () => {
-  const [isOpenToolTip, setIsOpenToolTip] = useState(false)
+interface UserToolTipProps {
+  isOpen: boolean
+  onToggle?: () => void
+  onClose: () => void
+}
+
+const UserToolTip = ({ isOpen, onClose, onToggle }: UserToolTipProps) => {
   const { data: session } = useSession()
 
   const id = session!.user.id
-
-  const handleToggleTooltip = (e: MouseEvent) => {
-    e.stopPropagation()
-    setIsOpenToolTip(!isOpenToolTip)
-  }
-
-  const handleCloseToolTip = () => setIsOpenToolTip(false)
 
   const handleLogout = () => signOut({ callbackUrl: '/' })
 
   return (
     <>
-      <HeaderRightLayout aria-label="User">
-        <button
-          className="button"
-          onClick={handleToggleTooltip}
-          role="switch"
-          aria-checked={isOpenToolTip}
-        >
+      <HeaderRightLayout onClick={onToggle} aria-label="User">
+        <button className="toggle" role="switch" aria-checked={isOpen}>
           <Image
             src="/assets/images/arrow-drop-down.svg"
             alt="User actions"
@@ -38,7 +30,7 @@ const UserToolTip = () => {
             height={20}
           />
         </button>
-        <ToolTip isOpen={isOpenToolTip} onClose={handleCloseToolTip}>
+        <ToolTip isOpen={isOpen} onClose={onClose}>
           <li>
             <Link href={`/profile/${id}`}>
               <a className="action action--gray">
@@ -81,20 +73,10 @@ const UserToolTip = () => {
       <style jsx>{resetButton}</style>
       <style jsx>{toolTipActionStyles}</style>
       <style jsx>{`
-        .button {
+        .toggle {
           display: grid;
           place-items: center;
           height: 2rem;
-        }
-
-        @media (hover: hover) {
-          .button {
-            transition: transform 0.2s ease-in-out;
-          }
-
-          .button:hover {
-            transform: scale(1.5);
-          }
         }
 
         .action--gray {
