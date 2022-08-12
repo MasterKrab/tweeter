@@ -21,6 +21,12 @@ import removeNoAlphaNumeric from 'utils/removeNoAlphaNumeric'
 import getAvatar from 'utils/getAvatar'
 import resetButton from 'styles/resetButton'
 
+const NAME_ERRORS = {
+  required: 'Name is required',
+  minLength: 'Name must be at least 3 characters',
+  maxLength: 'Name must be less than 20 characters',
+}
+
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const session = await getSession({ req })
 
@@ -135,6 +141,8 @@ const Settings = ({ user }: SettingsProps) => {
     return userSettings.image!
   }
 
+  console.log(errors)
+
   return (
     <>
       <Metadata title="Settings" />
@@ -150,12 +158,18 @@ const Settings = ({ user }: SettingsProps) => {
               className="profile__input"
               {...register('name', {
                 required: true,
+                minLength: 3,
+                maxLength: 20,
               })}
               type="text"
               id={nameInputId}
               aria-invalid={!!errors.name}
             />
-            {errors.name && <ErrorMessage>Please provide a name</ErrorMessage>}
+            {errors.name && errors.name.type in NAME_ERRORS && (
+              <ErrorMessage>
+                {NAME_ERRORS[errors.name.type as keyof typeof NAME_ERRORS]}
+              </ErrorMessage>
+            )}
           </div>
 
           <div className="profile__field">
