@@ -1,6 +1,6 @@
 import type { NewCommentForm } from 'types/new-comment'
 import type { tweetId } from 'reducers/tweetsSlice'
-import { useId, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useAppDispatch } from 'app/store'
 import useAutoIncreaseHeight from 'hooks/useAutoIncreaseHeight'
@@ -44,7 +44,6 @@ const AddComment = ({
   const textareaRef = useAutoIncreaseHeight(contentValue)
 
   const media = watch('media')
-  const id = useId()
 
   const handleSubmit = createHandleSubmit((data) =>
     dispatch(
@@ -59,7 +58,7 @@ const AddComment = ({
   )
 
   const handleChangeMedia = (file: File) => setValue('media', file)
-  const handleRemoveMedia = () => setValue('media', null)
+  const handleRemoveMedia = () => setValue('media', undefined)
 
   return (
     <>
@@ -79,7 +78,7 @@ const AddComment = ({
         ></textarea>
         <div className="form__image-input">
           <ImageInput
-            key={`${id}-${media ? 'media' : 'no-media'}`}
+            clearValue={!media}
             onChange={handleChangeMedia}
             color={media ? 'blue' : 'gray'}
             name="media"

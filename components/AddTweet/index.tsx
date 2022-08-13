@@ -41,7 +41,7 @@ const AddTweet = ({ payloadId = 'home' }: AddTweetProps) => {
   )
 
   const handleChangeMedia = (file: File) => setValue('media', file)
-  const handleRemoveMedia = () => setValue('media', null)
+  const handleRemoveMedia = () => setValue('media', undefined)
 
   const handleChangeReplyPermission = (value: Permission) =>
     setValue('replyPermission', value)
@@ -177,7 +177,7 @@ const AddTweet = ({ payloadId = 'home' }: AddTweetProps) => {
             margin-left: auto;
           }
 
-          .add-tweet :global(.media) {
+          :global(.add-tweet .media) {
             grid-column: 2 / 3;
           }
         }
