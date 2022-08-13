@@ -1,6 +1,6 @@
 export interface NewCommentForm {
   content: string
-  media: File
+  media: File | null
 }
 
 export interface NewComment extends NewCommentForm {

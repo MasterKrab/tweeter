@@ -1,12 +1,15 @@
 import type { NewCommentForm } from 'types/new-comment'
 import type { tweetId } from 'reducers/tweetsSlice'
-import { useEffect } from 'react'
+import { useId, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useAppDispatch } from 'app/store'
 import useAutoIncreaseHeight from 'hooks/useAutoIncreaseHeight'
 import { fetchCreateComment } from 'reducers/tweetsSlice'
 import SessionAvatar from 'components/SessionAvatar'
 import ImageInput from 'components/ImageInput'
+import { AnimatePresence } from 'framer-motion'
+import Media from 'components/Media'
+import createHandleKeyDownSubmit from 'utils/createHandleKeyDownSubmit'
 
 interface AddCommentProps {
   tweetId: string
@@ -23,7 +26,7 @@ const AddComment = ({
 }: AddCommentProps) => {
   const {
     register,
-    handleSubmit,
+    handleSubmit: createHandleSubmit,
     setValue,
     watch,
     reset,
@@ -41,7 +44,9 @@ const AddComment = ({
   const textareaRef = useAutoIncreaseHeight(contentValue)
 
   const media = watch('media')
-  const onSubmit = (data: NewCommentForm) =>
+  const id = useId()
+
+  const handleSubmit = createHandleSubmit((data) =>
     dispatch(
       fetchCreateComment({
         id: payloadId,
@@ -51,18 +56,21 @@ const AddComment = ({
         },
       })
     ).then(() => reset())
+  )
 
   const handleChangeMedia = (file: File) => setValue('media', file)
+  const handleRemoveMedia = () => setValue('media', null)
 
   return (
     <>
-      <form className="form" onSubmit={handleSubmit(onSubmit)} id={formId}>
+      <form className="form" onSubmit={handleSubmit} id={formId}>
         <SessionAvatar includeAlt />
         <textarea
           className="form__textarea"
           aria-label="Tweet your reply"
           placeholder="Tweet your reply"
           aria-invalid={!!errors.content}
+          onKeyDown={createHandleKeyDownSubmit(handleSubmit)}
           {...content}
           ref={(element) => {
             content.ref(element)
@@ -71,18 +79,15 @@ const AddComment = ({
         ></textarea>
         <div className="form__image-input">
           <ImageInput
+            key={`${id}-${media ? 'media' : 'no-media'}`}
             onChange={handleChangeMedia}
             color={media ? 'blue' : 'gray'}
             name="media"
           />
         </div>
-        {media && (
-          <img
-            className="form__media"
-            src={URL.createObjectURL(media)}
-            alt="media"
-          />
-        )}
+        <AnimatePresence>
+          {media && <Media file={media} onRemove={handleRemoveMedia} />}
+        </AnimatePresence>
       </form>
       <style jsx>{`
         .form {
@@ -119,12 +124,8 @@ const AddComment = ({
           right: 0.781rem;
         }
 
-        .form__media {
-          width: 100%;
-          max-width: 10rem;
+        .form :global(.media) {
           margin-top: 0.5rem;
-          margin-bottom: 0.5rem;
-          border-radius: 0.5rem;
           grid-column: 2 / 3;
         }
       `}</style>

@@ -1,6 +1,6 @@
 interface NewTweet {
   content: string
-  media: File
+  media: File | null
   replyPermission: 'everyone' | 'following'
 }
 

@@ -1,5 +1,5 @@
 import type { ReactNode, ChangeEvent } from 'react'
-import { useId } from 'react'
+import { useId, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import classnames from 'classnames'
 import visuallyHidden from 'styles/visuallyHidden'
@@ -7,12 +7,12 @@ import IMAGE_FORMATS from 'lib/imageFormats'
 import removeNoAlphaNumeric from 'utils/removeNoAlphaNumeric'
 
 interface ImageInputProps {
-  value?: File[]
   name: string
   onChange: (file: File) => void
   color: 'blue' | 'gray'
   disabled?: boolean
   children?: ReactNode
+  clearValue?: boolean
 }
 
 const accept = IMAGE_FORMATS.join(',')
@@ -23,11 +23,23 @@ const ImageInput = ({
   color,
   disabled,
   children,
+  clearValue,
 }: ImageInputProps) => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const id = useId()
 
+  useEffect(() => {
+    if (!inputRef.current || !clearValue) return
+
+    inputRef.current.value = ''
+  }, [clearValue])
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.files![0])
+    const files = event.target.files
+
+    if (!files) return
+
+    onChange(files[0])
   }
 
   const normalizedId = removeNoAlphaNumeric(id)
@@ -52,6 +64,7 @@ const ImageInput = ({
           height={17}
         />
         <input
+          ref={inputRef}
           id={`image-input-${normalizedId}-input`}
           focus-target={labelId}
           className="visually-hidden"

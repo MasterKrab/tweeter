@@ -1,15 +1,17 @@
 import type NewTweet from 'types/new-tweet'
 import type { Permission } from 'lib/replyPermissions'
 import type { tweetId } from 'reducers/tweetsSlice'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { useAppDispatch } from 'app/store'
 import useAutoIncreaseHeight from 'hooks/useAutoIncreaseHeight'
 import { fetchCreateTweet } from 'reducers/tweetsSlice'
 import SessionAvatar from 'components/SessionAvatar'
+import Media from 'components/Media'
 import ImageInput from 'components/ImageInput'
 import ReplyPermission from './ReplyPermission'
 import Spinner from 'components/Spinner'
+import createHandleKeyDownSubmit from 'utils/createHandleKeyDownSubmit'
 import resetButton from 'styles/resetButton'
 
 interface AddTweetProps {
@@ -19,7 +21,7 @@ interface AddTweetProps {
 const AddTweet = ({ payloadId = 'home' }: AddTweetProps) => {
   const {
     register,
-    handleSubmit,
+    handleSubmit: createHandleSubmit,
     setValue,
     watch,
     reset,
@@ -34,19 +36,21 @@ const AddTweet = ({ payloadId = 'home' }: AddTweetProps) => {
   const replyPermission = watch('replyPermission', 'everyone')
   const media = watch('media')
 
-  const onSubmit = (data: NewTweet) =>
+  const handleSubmit = createHandleSubmit((data) =>
     dispatch(fetchCreateTweet({ id: payloadId, data })).then(() => reset())
+  )
 
   const handleChangeMedia = (file: File) => setValue('media', file)
+  const handleRemoveMedia = () => setValue('media', null)
 
-  const handleChamgeReplyPermission = (value: Permission) =>
+  const handleChangeReplyPermission = (value: Permission) =>
     setValue('replyPermission', value)
 
   return (
     <>
       <motion.form
         className="add-tweet"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit}
         initial={{ scale: 0.75, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.75, opacity: 0 }}
@@ -59,6 +63,7 @@ const AddTweet = ({ payloadId = 'home' }: AddTweetProps) => {
             aria-label="Write your tweet"
             placeholder="What's happening?"
             aria-invalid={!!errors.content}
+            onKeyDown={createHandleKeyDownSubmit(handleSubmit)}
             {...content}
             ref={(element) => {
               content.ref(element)
@@ -68,13 +73,14 @@ const AddTweet = ({ payloadId = 'home' }: AddTweetProps) => {
           <div className="add-tweet__bottom">
             <div className="add-tweet__buttons">
               <ImageInput
+                clearValue={!media}
                 color="blue"
                 name="media"
                 onChange={handleChangeMedia}
               />
               <ReplyPermission
                 value={replyPermission || 'everyone'}
-                onChange={handleChamgeReplyPermission}
+                onChange={handleChangeReplyPermission}
               />
             </div>
             <button className="add-tweet__submit" disabled={isSubmitting}>
@@ -90,13 +96,9 @@ const AddTweet = ({ payloadId = 'home' }: AddTweetProps) => {
               )}
             </button>
           </div>
-          {media && (
-            <img
-              className="add-tweet__media"
-              src={URL.createObjectURL(media)}
-              alt="media"
-            />
-          )}
+          <AnimatePresence>
+            {media && <Media file={media} onRemove={handleRemoveMedia} />}
+          </AnimatePresence>
         </div>
       </motion.form>
       <style jsx>{resetButton}</style>
@@ -174,17 +176,8 @@ const AddTweet = ({ payloadId = 'home' }: AddTweetProps) => {
           .add-tweet__submit {
             margin-left: auto;
           }
-        }
 
-        .add-tweet__media {
-          width: 100%;
-          max-width: 10rem;
-          margin-bottom: 0.5rem;
-          border-radius: 0.5rem;
-        }
-
-        @media screen and (min-width: 48rem) {
-          .add-tweet__media {
+          .add-tweet :global(.media) {
             grid-column: 2 / 3;
           }
         }
