@@ -6,16 +6,19 @@ interface MediaImageProps {
   width: number
   height: number
   alt?: string
+  priority?: boolean
 }
 
-const MediaImage = (props: MediaImageProps) => (
+const MediaImage = ({ priority, ...props }: MediaImageProps) => (
   <>
     <Image
       {...props}
       className="media-image"
       alt="Media"
+      placeholder="blur"
       blurDataURL={blurPlaceHolder}
-      loading="lazy"
+      loading={priority ? 'eager' : 'lazy'}
+      priority={priority}
     />
     <style jsx>{`
       :global(.media-image) {

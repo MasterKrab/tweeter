@@ -44,10 +44,11 @@ const Tweets = ({
             >
               {tweets.length ? (
                 <>
-                  {tweets.map((tweet) => (
+                  {tweets.map((tweet, index) => (
                     <TweetItem
                       key={`${id}-${tweet.id}`}
                       payloadId={payloadId}
+                      priority={index <= 5}
                       {...tweet}
                     />
                   ))}

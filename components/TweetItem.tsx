@@ -24,9 +24,10 @@ import resetButton from 'styles/resetButton'
 
 interface TweetItemProps extends Tweet {
   payloadId: tweetId
+  priority?: boolean
 }
 
-const TweetItem = ({ payloadId, ...tweet }: TweetItemProps) => {
+const TweetItem = ({ payloadId, priority, ...tweet }: TweetItemProps) => {
   const {
     id,
     content,
@@ -94,6 +95,7 @@ const TweetItem = ({ payloadId, ...tweet }: TweetItemProps) => {
               src={mediaUrl}
               width={mediaWidth}
               height={mediaHeight}
+              priority={priority}
             />
           )}
           <ul className="stats">
