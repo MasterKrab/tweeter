@@ -1,4 +1,4 @@
 const getAvatar = (name: string) =>
-  `https://avatars.dicebear.com/api/identicon/${name}.svg`
+  `https://api.dicebear.com/7.x/identicon/svg?seed=${name}`
 
 export default getAvatar
