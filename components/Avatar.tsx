@@ -21,6 +21,7 @@ const Avatar = ({
         width={size}
         height={size}
         alt={alt}
+        src={src}
         blurDataURL={blurPlaceHolder}
         unoptimized={src.startsWith("https://api.dicebear.com/7.x/identicon")}
         {...props}
