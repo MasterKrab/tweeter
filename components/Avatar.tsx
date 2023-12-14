@@ -11,6 +11,7 @@ const Avatar = ({
   size = 40,
   radius = '0.5rem',
   alt = '',
+  src,
   ...props
 }: AvatarProps) => (
   <>
@@ -21,6 +22,7 @@ const Avatar = ({
         height={size}
         alt={alt}
         blurDataURL={blurPlaceHolder}
+        unoptimized={src.startsWith("https://api.dicebear.com/7.x/identicon")}
         {...props}
       />
     </div>
