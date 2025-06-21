@@ -78,14 +78,14 @@ importers:
         specifier: 2.4.1
         version: 2.4.1(redux@4.2.1)
       styled-jsx:
-        specifier: ^5.1.7
+        specifier: 5.1.7
         version: 5.1.7(react@18.1.0)
     devDependencies:
       '@types/formidable':
         specifier: 2.0.5
         version: 2.0.5
       '@types/node':
-        specifier: ^17.0.45
+        specifier: 17.0.45
         version: 17.0.45
       '@types/react':
         specifier: 18.0.9
@@ -1330,7 +1330,6 @@ packages:
     resolution: {integrity: sha512-t0etAxTUk1w5MYdNOkZBZ8rvYYN5iL+2dHCCx/DpkFm/bW28M6y5nUS83D4XdZiHy35Fpaw6LBb+F88fHZnVCw==}
     engines: {node: '>=8.17.0'}
     hasBin: true
-    bundledDependencies: []
 
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
