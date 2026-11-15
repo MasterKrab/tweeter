@@ -11,6 +11,7 @@ const authHandler: NextApiHandler = (req, res) =>
       GitHubProvider({
         clientId: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        issuer: 'https://github.com/login/oauth',
       }),
       GitlabProvider({
         clientId: process.env.GITLAB_CLIENT_ID,
